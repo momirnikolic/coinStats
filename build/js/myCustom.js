@@ -62,10 +62,10 @@ $(document).ready(function () {
                     var item = [ 
                         this.MarketName.replace(marketBaseCurrency + '-',""),
                         this.PrevDay.toFixed(decimalRound),
-                        this.Low.toFixed(decimalRound),
                         this.Last.toFixed(decimalRound),
+                        this.Low.toFixed(decimalRound),
                         this.High.toFixed(decimalRound),
-                        this.TimeStamp
+                        this.TimeStamp.split("T")[1]
                     ]
                     parsedData.push(item);
                 }
@@ -106,7 +106,7 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             callBackFunction: callBackFunction,
-            columNames: ["MarketName","Yesterday","Low","Last","High","TimeStamp"],
+            columNames: ["MarketName","Yesterday","Last","Low","High","Time Updated"],
             currency: ['USDT','BTC'],
             dataTableID: ['#coin-list-usd','#coin-list-btc'],
             decimalRound: [2,8]
