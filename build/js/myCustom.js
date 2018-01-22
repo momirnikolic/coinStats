@@ -1,5 +1,40 @@
+// POPULATE REALTIME PRICES
+$(document).ready(function(){
+
+    // Parse last btc price from api
+    function parseResponse(jsonData,elementID,bid_askElementID){
+        parsedData = jsonData.result
+        $(elementID).text(parsedData.Last.toFixed(2) + ' $' );
+        $(bid_askElementID).text(
+            'Bid: ' + parsedData.Bid.toFixed(2) + ' $' + '    |    ' +
+            'Ask: ' + parsedData.Ask.toFixed(2) + ' $'  );
+
+    }
+
+    // GET api btc last price
+    function apiCall2(coinPair,callbackFunction,elementID,id_askElementID) {
+        $.ajax({
+            url: 'https://bittrex.com/api/v1.1/public/getticker?market='+ coinPair,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                callbackFunction(data,elementID,id_askElementID);
+            }
+            
+        })
+    }
+
+    // script execution
+    apiCall2("USDT-BTC",parseResponse,'#btc-last-price','#btc-bid-ask-price');
+    apiCall2("USDT-ETH",parseResponse,'#eth-last-price','#eth-bid-ask-price');
+    
+})
 
 
+
+
+
+// POPULATE DATATABLES
 $(document).ready(function () {
     
         // populate datatable with JS object
@@ -49,7 +84,7 @@ $(document).ready(function () {
         // Create api call and parse output on success
         // Za input se zadaju api parametri i callback FUNKCIJA koja se poziva u sucess bloku. 
         // Samo na ovaj nacin se u success blok mozgu koristiti fukncije
-        function apiCall(params) {
+        function apiCall_datatables(params) {
             $.ajax({
                 url: params.url,
                 type: params.type,
@@ -77,7 +112,7 @@ $(document).ready(function () {
             decimalRound: [2,8]
         }
         
-        apiCall(input_params);
+        apiCall_datatables(input_params);
         //
     
     
